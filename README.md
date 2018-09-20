@@ -3,6 +3,6 @@ An integration of a SLAM package (Google's Cartographer/GMapping/HectorSLAM) wit
 
 Launch commands:
 1. Cartographer: `roslaunch test_cartographer test_cartographer.launch`
-2. GMapping: `roslaunch test_cartographer test_cartographer.launch`
+2. GMapping: `roslaunch test_cartographer test_gmapping.launch`
 
 A sample bag file can be found at `bags`
