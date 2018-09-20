@@ -1,27 +1,25 @@
-<!-- 
-  Simulate a differential drive robot with the teb_local_planner in stage:
-  - stage
-  - map_server
-  - move_base
-  - static map
-  - amcl
-  - rviz view
- -->
+
 <launch>
 
         <!--  ************** Global Parameters ***************  -->
         <param name="/use_sim_time" value="true"/>
         <!--  ************** Stage Simulator ***************  -->
+
+	<!-- ******** Uncomment the "stageros" and "teleop_twist_keyboard" to use the simulator instead of bag files -->
+	<!--
 	<node pkg="stage_ros" type="stageros" name="stageros" args="$(find test_cartographer)/stage/maze_diff_drive.world" output="screen">
 		<remap from="base_scan" to="scan"/>
   	</node>  
 
-	<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_key" output="screen"/>
+	<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_key" output="screen"/> 
+	-->
+	
 
-	 <node name="cartographer_node" pkg="cartographer_ros"
+
+    <node name="cartographer_node" pkg="cartographer_ros"
       	type="cartographer_node" args="
         	-configuration_directory $(find test_cartographer)/configuration_files
-         	-configuration_basename backpack_2d.lua"
+         	-configuration_basename jackal.lua"
       		output="screen">
   	</node>
 
