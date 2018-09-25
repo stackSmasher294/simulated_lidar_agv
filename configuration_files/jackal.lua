@@ -32,11 +32,11 @@ options = {
   num_subdivisions_per_laser_scan = 1,
   num_point_clouds = 0,
   lookup_transform_timeout_sec = 1.,
-  submap_publish_period_sec = 1.0,
+  submap_publish_period_sec = 0.5,
   pose_publish_period_sec = 5e-3,
   trajectory_publish_period_sec = 30e-3,
-  rangefinder_sampling_ratio = 1.,
-  odometry_sampling_ratio = 0.5,
+  rangefinder_sampling_ratio = 1.0,
+  odometry_sampling_ratio = 1.0,
   fixed_frame_pose_sampling_ratio = 0.5,
   imu_sampling_ratio = 1.,
   landmarks_sampling_ratio = 1.,
@@ -44,22 +44,36 @@ options = {
 
 MAP_BUILDER.use_trajectory_builder_2d = true
 
-TRAJECTORY_BUILDER_2D.min_range = 0.3
-TRAJECTORY_BUILDER_2D.missing_data_ray_length = 1.
-TRAJECTORY_BUILDER_2D.use_imu_data = true
+TRAJECTORY_BUILDER_2D.min_range = 0.1
+TRAJECTORY_BUILDER_2D.missing_data_ray_length = 5.
+TRAJECTORY_BUILDER_2D.use_imu_data = false
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 0.1
+TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.angular_search_window = math.rad(30.0)
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.translation_delta_cost_weight = 10.
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.rotation_delta_cost_weight = 10.
-TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 2e2
-TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 4e2
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 10.
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 20.
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.occupied_space_weight = 0.05
+TRAJECTORY_BUILDER_2D.motion_filter.max_time_seconds = 0.5
+TRAJECTORY_BUILDER_2D.motion_filter.max_distance_meters = 0.1
+TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(10.0)
+
+-- TRAJECTORY_BUILDER_2D.adaptive_voxel_filter.max_length = 1.0
+--TRAJECTORY_BUILDER_2D.adaptive_voxel_filter.min_num_points = 560
+--TRAJECTORY_BUILDER_2D.adaptive_voxel_filter.max_range = 5
 
 POSE_GRAPH.optimization_problem.huber_scale = 1e2
 
 -----------------TUNE THESE PARAMETERS FOR LOW LATENCY-------------------------------
 
 ------------Global SLAM------------
-POSE_GRAPH.optimize_every_n_nodes = 1 -- Decrease
+POSE_GRAPH.optimize_every_n_nodes = 2 -- Decrease
+POSE_GRAPH.constraint_builder.min_score = 0.80
+-- POSE_GRAPH.constraint_builder
+-- POSE_GRAPH.constraint_builder
+-- POSE_GRAPH.constraint_builder
+-- POSE_GRAPH.constraint_builder
 MAP_BUILDER.num_background_threads = 4 -- Increase up to number of cores
 -- POSE_GRAPH.global_sampling_ratio = 0.00001 -- Decrease
 -- POSE_GRAPH.constraint_builder.sampling_ratio = 0.0001 -- Decrease
@@ -75,9 +89,9 @@ POSE_GRAPH.constraint_builder.min_score = 0.85 -- Increase
 -- TRAJECTORY_BUILDER_2D.loop_closure_adaptive_voxel_filter.max_range = 10. -- Decrease
 -- TRAJECTORY_BUILDER_2D.loop_closure_adaptive_voxel_filter.max_length = 1.8 -- Increase
 -- TRAJECTORY_BUILDER_2D.voxel_filter_size = 0.05 -- Increase
---TRAJECTORY_BUILDER_2D.submaps.resolution=0.05 -- Increase
-TRAJECTORY_BUILDER_2D.submaps.num_range_data = 20 -- Decrease
-TRAJECTORY_BUILDER_2D.max_range = 10. -- Decrease
+-- TRAJECTORY_BUILDER_2D.submaps.resolution=0.05 -- Increase
+TRAJECTORY_BUILDER_2D.submaps.num_range_data = 5 -- Decrease
+TRAJECTORY_BUILDER_2D.max_range = 5. -- Decrease
 
 -------------------------------------------------------------------------------------
 

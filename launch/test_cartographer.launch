@@ -13,18 +13,15 @@
 
 	<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_key" output="screen"/> 
 	-->
-	
-
 
     <node name="cartographer_node" pkg="cartographer_ros"
       	type="cartographer_node" args="
         	-configuration_directory $(find test_cartographer)/configuration_files
          	-configuration_basename jackal.lua"
-      		output="screen">
+      		output="log">
   	</node>
 
 	<node pkg="cartographer_ros" type="cartographer_occupancy_grid_node" name="cartographer_occupancy_grid_node"
-		args="-resolution 0.01"/> 
+		args="-resolution 0.01"/>
 	<node pkg="rviz" type="rviz" name="carto_viz" args="-d $(find test_cartographer)/rviz/cartographer.rviz"/>
-
 </launch>
